@@ -1,7 +1,10 @@
 const path = require('path');
 const HtmlPlugin = require('html-webpack-plugin');
 
-module.exports = {
+const isDev = process.env.NODE_ENV === 'development';
+console.log('isDev', isDev);
+
+const config = {
   entry: {
     app: path.join(__dirname, '../client/app.js'), // 告诉 入口，通过这个 形成这个依赖关系树
   },
@@ -25,3 +28,24 @@ module.exports = {
     }),
   ],
 };
+
+if (isDev) {
+  config.devServer = {
+    host: '0.0.0.0', // === localhost,127.0.0.1, 本机ip
+    port: 8888,
+    contentBase: path.join(__dirname, '../dist'),
+    // hot: true, // 开启热更新
+    overlay: {
+      // 页面显示 error
+      errors: true,
+    },
+    publicPath: '/public/',
+    // 由于是前端路由，玩意用户在某个前端路由时，刷新了，服务器不至于返回404，有默认的放回文件
+    historyApiFallback: {
+      index: '/public/index.html', // 404s will fallback to /public/index.html
+    },
+    // compress: true,
+  };
+}
+
+module.exports = config;
