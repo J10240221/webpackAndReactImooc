@@ -1,0 +1,38 @@
+{
+  "name": "mook-webpack-react",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build:client": "webpack --mode=development --config build/webpack.config.client.js",
+    "build:server": "webpack --mode=development --config build/webpack.config.server.js",
+    "build": "npm run clear && npm run build:client && npm run build:server",
+    "clear": "rimraf dist",
+    "start": "node server/server.js"
+  },
+  "author": "zhilingege",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
+    "webpack": "^4.12.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-generator": "^6.26.1",
+    "babel-helpers": "^6.24.1",
+    "babel-loader": "^7.1.4",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-es2015-loose": "^8.0.0",
+    "babel-preset-react": "^6.24.1",
+    "convert-source-map": "^1.5.1",
+    "detect-indent": "^5.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "rimraf": "^2.6.2",
+    "slash": "^2.0.0",
+    "trim-right": "^1.0.1",
+    "webpack-cli": "^3.0.3",
+    "webpack-html-plugin": "^0.1.1"
+  }
+}
