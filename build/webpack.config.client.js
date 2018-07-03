@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlPlugin = require('html-webpack-plugin');
 
 const isDev = process.env.NODE_ENV === 'development';
@@ -11,7 +12,7 @@ const config = {
   output: {
     filename: '[name].[hash].js',
     path: path.join(__dirname, '../dist'),
-    publicPath: '/public', // /public  静态资源文件引用的路径 很重要，后期会更好理解(目前这样子，服务端可以正常访问，本地文件就不行，因为它并不在public文件下)
+    publicPath: '/public/', // /public  静态资源文件引用的路径 很重要，后期会更好理解(目前这样子，服务端可以正常访问，本地文件就不行，因为它并不在public文件下)
   },
   module: {
     rules: [
@@ -30,13 +31,17 @@ const config = {
 };
 
 if (isDev) {
+  config.entry = {
+    app: ['react-hot-loader/patch', path.join(__dirname, '../client/app.js')], // 代码里面 插入 热更新 必须的代码
+  };
+
   config.devServer = {
-    host: '0.0.0.0', // === localhost,127.0.0.1, 本机ip
+    host: '0.0.0.0', // === (localhost,127.0.0.1, 本机ip) 3 个都能访问
     port: 8888,
     contentBase: path.join(__dirname, '../dist'),
-    // hot: true, // 开启热更新
+    hot: true, // 开启热更新
     overlay: {
-      // 页面显示 error
+      // 网站页面显示 黑色膜态框 + error
       errors: true,
     },
     publicPath: '/public/',
@@ -46,6 +51,7 @@ if (isDev) {
     },
     // compress: true,
   };
+  config.plugins.push(new webpack.HotModuleReplacementPlugin());
 }
 
 module.exports = config;
